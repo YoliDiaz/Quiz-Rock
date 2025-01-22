@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Rock</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+</head>
+<body class="flex items-center bg-gradient-to-r from-slate-500 to-yellow-100">
+
+    <main class="bg-white w-2/3 md:max-w-md mx-auto rounded-lg shadow-xl">
+        <header class="flex items-center justify-between p-4 px-6 border-b">
+            <h1 class="font-bold text-xl">Quiz de Rock 🎸</h1>
+
+            <div class="flex gap-2 bg-blue-400 rounded-lg px-2 py-1 text-white">
+                <p>Tiempo restante</p>
+                <p>30</p>
+            </div>
+        </header>
+        
+        <section class="p-6">
+            <h2 id="question" class="font-bold text-2xl"></h2>
+
+            <div id="answers" class="flex flex-col gap-2 mt-4"></div>
+        </section>
+
+        <footer class="flex justify-between items-center px-6 py-4 border-t">
+            <p id="infoQuestion" class="font-smibold">Preguntas 1 de 10</p>
+
+            <button onclick="nextQuestion()" class="bg-slate-950 text-white px-4 py-2 rounded-lg hover:bg-slate-800 transition-all">Siguiente</button>
+        </footer>
+
+
+    </main>
+    <script src="main.js"></script>
+</body>
+</html>
