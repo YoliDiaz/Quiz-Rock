@@ -73,10 +73,12 @@ const questions = [
 ];
 
 let currentQuestion = 0;
+let isAnswered = false
 
 const title = document.getElementById("question");
 const answers = document.getElementById("answers");
 const infoQuestion = document.getElementById("infoQuestion");
+const btnNext = document.getElementById("btnNext");
 
 function printQuestion() {
 
@@ -97,22 +99,35 @@ function printQuestion() {
         </button>`;
     });
 
+    btnNext.disabled = true;
+
     printInfoQuestion();
 }
 
 function checkAnswer(answer, btnId) {
-    const currentCorrectAnswer = questions[currentQuestion].correctAnswer;
-    
-    const bgColor = answer == currentCorrectAnswer ? "bg-green-500" : "bg-red-500";
+    if(!isAnswered) {
+        isAnswered = true;
 
-    document.getElementById(btnId).classList.remove("bg-slate-200");
-    document.getElementById(btnId).classList.add(bgColor);
+        btnNext.disabled = false;
+
+        const currentCorrectAnswer = questions[currentQuestion].correctAnswer;
+    
+        const bgColor = answer == currentCorrectAnswer ? "bg-green-500" : "bg-red-500";
+
+        document.getElementById(btnId).classList.remove("bg-slate-200");
+        document.getElementById(btnId).classList.add(bgColor);
+
+    }
+    
 }
 
 function nextQuestion() {
-    currentQuestion++;
-    console.log(currentQuestion);
-    printQuestion();
+    if (isAnswered) {
+        currentQuestion++;
+        isAnswered = false;
+        console.log(currentQuestion);
+        printQuestion();
+    }
 }
 
 function printInfoQuestion() {
