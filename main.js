@@ -73,12 +73,20 @@ const questions = [
 ];
 
 let currentQuestion = 0;
-let isAnswered = false
+let isAnswered = false;
+
+const totalTimer = 30;
+let timer = 30;
+let intervalID = setInterval(countdown, 1000);
+
+let score = 0;
 
 const title = document.getElementById("question");
 const answers = document.getElementById("answers");
 const infoQuestion = document.getElementById("infoQuestion");
 const btnNext = document.getElementById("btnNext");
+const txtTimer = document.getElementById("txtTimer");
+const progressBar = document.getElementById("progressBar");
 
 function printQuestion() {
 
@@ -112,6 +120,12 @@ function checkAnswer(answer, btnId) {
 
         const currentCorrectAnswer = questions[currentQuestion].correctAnswer;
     
+        const isCorrect = answer == currentCorrectAnswer;
+        if(isCorrect) {
+            score += 10;
+            localStorage.setItem("score", score);
+        }
+        console.log("SCORE", score);
         const bgColor = answer == currentCorrectAnswer ? "bg-green-500" : "bg-red-500";
 
         document.getElementById(btnId).classList.remove("bg-slate-200");
@@ -124,9 +138,17 @@ function checkAnswer(answer, btnId) {
 function nextQuestion() {
     if (isAnswered) {
         currentQuestion++;
+        console.log("currentQuestion");
+        if (currentQuestion == questions.length) {
+            window.location = "/ranking.html";
+        }
+        
         isAnswered = false;
         console.log(currentQuestion);
         printQuestion();
+
+        timer = totalTimer + 1;
+        intervalID = setInterval(countdown, 1000);
     }
 }
 
@@ -135,3 +157,30 @@ function printInfoQuestion() {
 } 
 
 printQuestion();
+
+function countdown() {
+    timer -= 1;
+    console.log("timer", timer);
+    txtTimer.innerText =`${timer}`;
+
+    console.log("Se ha respondido? => ", isAnswered);
+
+    progressBar.classList.replace("opacity-0", "opacity-100");
+
+    const widthPercent = getPercent(timer);
+    progressBar.style.width = `${widthPercent}%`;
+
+    if(isAnswered || timer == 0) {
+        clearInterval(intervalID);
+        isAnswered = true;
+        btnNext.desabled = false;
+
+        if(timer == 0) {
+            alert("Tiempo finalizado");
+        }
+    }
+}
+
+function getPercent(currentTime) {
+    return (currentTime * 100) / totalTimer;
+}
