@@ -142,7 +142,7 @@ function nextQuestion() {
         if (currentQuestion == questions.length) {
             window.location = "/ranking.html";
         }
-        
+
         isAnswered = false;
         console.log(currentQuestion);
         printQuestion();
