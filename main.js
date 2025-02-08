@@ -1,83 +1,30 @@
-const questions = [
-    {
-        id:1,
-        questions: "1 ¿Quién es conocido como El Rey del Rock?",
-        answers: ["Bob Dylan", "Elvis Presley", "Mick Jagger", "Bruce Springsteen"],
-        correctAnswer:"Elvis Presley",
-    },
+let questions = [];
 
-    {
-        id:2,
-        questions: "2 ¿Cuál fue el álbum debut de la banda Nirvana?",
-        answers: ["Nevermind", "Bleach", "In Utero", "MTV Unpligged in New York"],
-        correctAnswer:"Bleach",
-    },
+const myHeaders = new Headers();
+myHeaders.append("apikey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImttaGhzcHNieWdxcWVkaXhtY2N5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgxNDI3NTQsImV4cCI6MjA1MzcxODc1NH0.ZHUWDNcl6dAcdxBjQSVL6hhHx_c17neAxt7Q8iWwiyk");
 
-    {
-        id:3,
-        questions: "3 ¿Qué banda escribió la canción de Bohemian Rhapsody?",
-        answers: ["The Beatles", "Led Zeppelin", "Queen", "Pink Floyd"],
-        correctAnswer:"Queen",
-    },
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow"
+};
 
-    {
-        id:4,
-        questions: "4 ¿Cuál de las siguientes bandas es originaria de Australia?",
-        answers: ["AC/DC", "Metallica", "The Rolling Stones", "The Doors"],
-        correctAnswer:"AC/DC",
-    },
-
-    {
-        
-        id:5,
-        questions: "5 ¿Cuál fue el nombre del guitarrista principal de la banda Led Zeppelin?",
-        answers: ["Jimmi Hendrix", "Jimmy Page", "Eric Clapton", "Keith Richards"],
-        correctAnswer:"Jimmy Page",
-        
-    },
-
-    {
-        id:6,
-        questions: "6 ¿Cuál es el apodo de la banda The Rolling Stones?",
-        answers: ["The Fab Four", "The Bad Boys of Rock", "The World s Greates Rock and Roll Band", "The Godfathers of Metal"],
-        correctAnswer:"The World s Greates Rock and Roll Band",   
-    },
-
-    {
-        id:7,
-        questions: "7 ¿Cuál de estos álbumes pertenece a The Beatles?",
-        answers: ["Let It Bleed", "The Wall", "Abbey Road", "Sticky Fingers"],
-        correctAnswer:"Abbey Road",
-    },
-
-    {
-        id:8,
-        questions: "8 ¿En qué ciudad se originó en movimiento grunge?",
-        answers: ["New York", "Los Angeles", "Seattle", "Chicago"],
-        correctAnswer:"Seattle",
-    },
-
-    {
-        id:9,
-        questions: "9 ¿Cuál de estas canciones es de la banda Metallica?",
-        answers: ["Smoke on the Water", "Enter Sandman", "We Will Rock You", "Hotel California"],
-        correctAnswer:"Enter Sandman",
-    },
-
-    {
-        id:10,
-        questions: "10 ¿Quién fue el cantante principal de la banda The Doors?",
-        answers: ["Roger Waters", "Jim Morrison", "Freddie Mercury", "Steven Tyler"],
-        correctAnswer:"Jim Morrison",
-    }
-];
+fetch("https://kmhhspsbygqqedixmccy.supabase.co/rest/v1/questions", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    questions = result.sort(() => Math.random() - 0.5);
+    questions = result;
+    printQuestion();
+    intervalID = setInterval(countdown, 1000);
+  })
+  .catch((error) => console.error(error));
 
 let currentQuestion = 0;
 let isAnswered = false;
 
 const totalTimer = 30;
 let timer = 30;
-let intervalID = setInterval(countdown, 1000);
+let intervalID; 
 
 let score = 0;
 
@@ -156,7 +103,7 @@ function printInfoQuestion() {
     infoQuestion.innerText =`Pregunta ${currentQuestion + 1} de ${questions.length}`;
 } 
 
-printQuestion();
+
 
 function countdown() {
     timer -= 1;
